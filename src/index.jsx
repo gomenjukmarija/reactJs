@@ -1,40 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const friends = [
-    {
-        title: "Yummmmmmm",
-        src: "https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-monkeyweirdo.jpg"
-    },
-    {
-        title: "Hey Guys!  Wait Up!",
-        src: "https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-earnestfrog.jpg"
-    },
-    {
-        title: "Yikes",
-        src: "https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-alpaca.jpg"
-    }
-];
+class TodaysPlan extends React.Component {
 
-class Friend extends React.Component {
     render() {
 
-        const n = Math.floor(Math.random()*3+0);
+        const apocalypse = Math.random() < 0.5;
 
-        const friend = friends[n];
+        let task;
+        if (!apocalypse) {
+            task = 'learn React.js'
+        } else {
+            task = 'run around'
+        }
 
-        console.log(n);
-
-        return (
-            <div>
-                <h1>{friend.title}</h1>
-                <img src={friend.src} />
-            </div>
-        );
+        return <h1>Today I am going to {task}!</h1>;
     }
 }
 
 ReactDOM.render(
-    <Friend />,
+    <TodaysPlan />,
     document.getElementById('app')
 );

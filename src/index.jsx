@@ -1,38 +1,36 @@
+// creates a JavaScript object.
+// This object contains properties that are needed to make React work,
+// such as React.createElement() and React.Component.
 import React from 'react';
+// creates another JavaScript object.
+// This object contains methods that help React interact with the DOM, such as ReactDOM.render().
 import ReactDOM from 'react-dom';
 
-//ReactDOM is the name of a JavaScript library.
-// ReactDOM.render()'s first argument should evaluate to a JSX expression,
-// it doesn't have to literally be a JSX expression.//
-// The first argument could also be a variable, so long as that variable evaluates to a JSX expression.
 
-// The second argument document.getElementById('app').//
-//That element acted as a container for ReactDOM.render()'s first argument!
-// At the end of the previous exercise, this appeared on the screen:
-// <main id="app">
-//     <h1>Render me!</h1>
-// </main>
+// A component is a small, reusable chunk of code that is responsible for one job.
+// That job is often to render some HTML.
 
-const toDoList = (
-    <ol>
-        <li>Learn React</li>
-        <li>Become a Developer</li>
-    </ol>
-);
+//every component must come from a component class.
 
-ReactDOM.render(
-    toDoList,
-    document.getElementById('app')
-);
+// React.Component is like a factory that creates components.
+// If you have a component class, then you can use that class
+// to produce as many components as you want.
 
+// That name should be written in UpperCamelCase.
 
-// One special thing about ReactDOM.render() is that it only updates DOM elements that have changed.
-// That means that if you render the exact same thing twice in a row, the second render will do nothing:
+class MyComponentClass extends React.Component {
+ // everything in between these curly-braces is instructions for how to build components
+ //    To call a component's render method, you pass that component to ReactDOM.render().
+// <MyComponentClass /> will call its render method,
+// which will return the JSX element <h1>Hello world</h1>.
+// ReactDOM.render() will then take that resulting JSX element,
+// and add it to the virtual DOM. This will make "Hello world" appear on the screen.
+    render() {
+        return <h1>Hello world</h1>;
+    }
+}
 
 ReactDOM.render(
-    toDoList,
+    <MyComponentClass />,
     document.getElementById('app')
 );
-
-//Only updating the necessary DOM elements is a large part of what makes React so successful.
-

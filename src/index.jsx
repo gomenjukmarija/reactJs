@@ -1,27 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const redPanda = {
-    src: 'http://bit.ly/1U92LL3',
-    alt: 'Red Panda',
-    width:  '200px'
-};
+const friends = [
+    {
+        title: "Yummmmmmm",
+        src: "https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-monkeyweirdo.jpg"
+    },
+    {
+        title: "Hey Guys!  Wait Up!",
+        src: "https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-earnestfrog.jpg"
+    },
+    {
+        title: "Yikes",
+        src: "https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-alpaca.jpg"
+    }
+];
 
-class RedPanda extends React.Component {
+class Friend extends React.Component {
     render() {
+
+        const n = Math.floor(Math.random()*3+0);
+
+        const friend = friends[n];
+
+        console.log(n);
+
         return (
             <div>
-                <h1>Cute Red Panda</h1>
-                <img
-                    src={redPanda.src}
-                    alt={redPanda.alt}
-                    width={redPanda.width} />
+                <h1>{friend.title}</h1>
+                <img src={friend.src} />
             </div>
         );
     }
 }
 
 ReactDOM.render(
-    <RedPanda />,
+    <Friend />,
     document.getElementById('app')
 );

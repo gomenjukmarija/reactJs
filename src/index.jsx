@@ -1,9 +1,9 @@
-// Our programming pattern uses two React components: a stateful component, and a stateless component.
-// "Stateful" describes any component that has a state property;
-// "stateless" describes any component that does not.
-
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import { Child } from './child.jsx';
+
+// A <Parent /> is supposed to pass its state to a <Child />.
 
 class Parent extends React.Component {
 
@@ -15,7 +15,7 @@ class Parent extends React.Component {
     }
 
     render() {
-        return <div></div>;
+        return <Child name={this.state.name} />;
     }
 }
 

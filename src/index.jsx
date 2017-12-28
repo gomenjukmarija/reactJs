@@ -1,13 +1,10 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
-class Bad extends React.Component {
-    render() {
-        this.props.message = 'yo'; // NOOOOOOOOOOOOOO!!!
-        return <h1>{this.props.message}</h1>;
-    }
-}
+// In JSX, you can't use the word class! You have to use className instead:
+// This is because JSX gets translated into JavaScript,
+// and class is a reserved word in JavaScript.
 
-// A React component should use props to store information that can be changed,
-// but can only be changed by a different component.
-//
-// A React component should use state to store information that the component itself can change.
+const myDiv = <div className="big">I AM A BIG DIV</div>;
+
+ReactDOM.render(myDiv, document.getElementById('app'));

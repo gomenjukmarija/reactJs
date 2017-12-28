@@ -1,10 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+Fine in JSX:
 
-// In JSX, you can't use the word class! You have to use className instead:
-// This is because JSX gets translated into JavaScript,
-// and class is a reserved word in JavaScript.
+<br />
 
-const myDiv = <div className="big">I AM A BIG DIV</div>;
+NOT FINE AT ALL in JSX:
 
-ReactDOM.render(myDiv, document.getElementById('app'));
+<br>

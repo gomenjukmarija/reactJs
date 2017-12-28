@@ -1,15 +1,22 @@
+// Our programming pattern uses two React components: a stateful component, and a stateless component.
+// "Stateful" describes any component that has a state property;
+// "stateless" describes any component that does not.
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Button extends React.Component {
+class Parent extends React.Component {
 
-    scream() {
-        alert('AAAAAAAAHHH!!!!!');
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: 'Frarthur'
+        };
     }
 
     render() {
-        return <button onClick={this.scream}>AAAAAH!</button>;
+        return <div></div>;
     }
 }
 
-ReactDOM.render(<Button />, document.getElementById('app'));
+ReactDOM.render(<Parent />, document.getElementById('app'));

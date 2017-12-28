@@ -1,28 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-function coinToss() {
-    // This function will randomly return either 'heads' or 'tails'.
-    return Math.random() < 0.5 ? 'heads' : 'tails';
-}
+// If you want to create a list of JSX elements, then .map() is often your best bet.
 
-const pics = {
-    kitty: 'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-kitty.jpg',
-    doggy: 'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-puppy.jpeg'
-};
+const people = ['Rowe', 'Prevost', 'Gare'];
 
-let img;
-
-
-// How can you write a conditional, if you can't inject an if statement into JSX?
-
-if (coinToss() === 'heads') {
-    img = <img src={pics.kitty} />
-} else {
-    img = <img src={pics.doggy} />
-}
+const peopleLis = people.map(person =>
+    <li>{person}</li>
+);
 
 ReactDOM.render(
-    img,
+    <ul>{peopleLis}</ul>,
     document.getElementById('app')
 );

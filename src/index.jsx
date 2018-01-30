@@ -1,25 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import  { Greeting } from './child.jsx';
+import { Button } from './child.jsx';
 
-class App extends React.Component {
+class Talker extends React.Component {
+    talk() {
+        let speech = '';
+        for (let i = 0; i < 10000; i++) {
+            speech += 'blah ';
+        }
+        alert(speech);
+    }
+
     render() {
-        return (
-            <div>
-                <h1>
-                    Hullo and, "Welcome to The Newzz," "On Line!"
-                </h1>
-                <Greeting name="Alison" signedIn={true}/>
-                <article>
-                    Latest:  where is my phone?
-                </article>
-            </div>
-        );
+        return <Button />;
     }
 }
 
 ReactDOM.render(
-    <App />,
+    <Talker />,
     document.getElementById('app')
 );

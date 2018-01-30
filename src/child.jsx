@@ -1,11 +1,11 @@
 import React from 'react';
 
-export class Greeting extends React.Component {
+export class Button extends React.Component {
     render() {
-        if (this.props.signedIn == false) {
-            return <h1>GO AWAY</h1>;
-        } else {
-            return <h1>Hi there, {this.props.name}!</h1>;
-        }
+        return (
+            <button>
+                Click me!
+            </button>
+        );
     }
 }

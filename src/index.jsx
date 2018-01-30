@@ -1,19 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { NavBar } from './child.jsx';
 
-
-class ProfilePage extends React.Component {
+class QuoteMaker extends React.Component {
     render() {
         return (
-            <div>
-                <NavBar />
-                <h1>All About Me!</h1>
-                <p>I like movies and blah blah blah blah blah</p>
-                <img src="https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-monkeyselfie.jpg" />
-            </div>
+            <blockquote>
+                <p>
+                    The world is full of objects, more or less interesting; I do not wish to add any more.
+                </p>
+                <cite>
+                    <a target="_blank"
+                       href="https://en.wikipedia.org/wiki/Douglas_Huebler">
+                        Douglas Huebler
+                    </a>
+                </cite>
+            </blockquote>
         );
     }
-}
+};
 
-ReactDOM.render(<ProfilePage />, document.getElementById('app'));
+ReactDOM.render(
+    <QuoteMaker />,
+    document.getElementById('app')
+);

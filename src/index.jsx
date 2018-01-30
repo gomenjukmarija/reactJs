@@ -1,20 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// You will often want a component to display the information that you pass.
-//
-//    Here's how to make a component display passed-in information:
-//
-// 1 - Find the component class that is going to receive that information.
-// 2 - Include this.props.name-of-information in that component class's render method's return statement.
+import  { Greeting } from './child.jsx';
 
-class Greeting extends React.Component {
+class App extends React.Component {
     render() {
-        return <h1>Hi there, {this.props.firstName}!</h1>;
+        return (
+            <div>
+                <h1>
+                    Hullo and, "Welcome to The Newzz," "On Line!"
+                </h1>
+                <Greeting name="Lily" />
+                <article>
+                    Latest newzz:  where is my phone?
+                </article>
+            </div>
+        );
     }
 }
 
 ReactDOM.render(
-    <Greeting firstName='Mary' />,
+    <App />,
     document.getElementById('app')
 );

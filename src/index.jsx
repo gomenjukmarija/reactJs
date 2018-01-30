@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Previously, you learned one way that components can interact: a component can render another component.
+// You can pass information to a React component.
 //
-// In this lesson, you will learn another way that components can interact: a component can pass information to another component.
-//
-// Information that gets passed from one component to another is known as "props."
+// How? By giving that component an attribute: <MyComponent foo="bar" />
+// Let's say that you want to pass a component the message,
+// "This is some top secret info.".
+// Here's how you could do it: <Example message="This is some top secret info." />
 
-// Every component has something called props.
-//
-//  A component's props is an object. It holds information about that component.
-//
-// To see a component's props object, you use the expression this.props.
+// If you want to pass information that isn't a string,
+// then wrap that information in curly braces.
+// Here's how you would pass an array: <Greeting myInfo={["top", "secret", "lol"]} />
+
+// In this next example, we pass several pieces of information to <Greeting />.
+// The values that aren't strings are wrapped in curly braces:
+//<Greeting name="Frarthur" town="Flundon" age={2} haunted={false} />
+
 
 class PropsDisplayer extends React.Component {
     render() {
@@ -27,13 +31,4 @@ class PropsDisplayer extends React.Component {
 }
 
 // ReactDOM.render goes here:
-ReactDOM.render(
-    <PropsDisplayer />,
-    document.getElementById('app')
-);
-
-//
-// Despite what you see in the browser, <PropsDisplayer />'s props object isn't really empty.
-// It has some properties that JSON.stringify doesn't detect.
-// But even if you could see those properties, the props object still wouldn't have much of value to show you right now.//
-//     But it's there!
+ReactDOM.render(<PropsDisplayer myProp="Hello" />, document.getElementById('app'));

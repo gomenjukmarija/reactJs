@@ -1,49 +1,59 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Button } from './child.jsx';
+import { List } from './child.jsx';
 
-// Here's how the naming convention works: first, think about what type of event you are listening for.
-// In our example, the event type was "click."
-// If you are listening for a "click" event, then you name your event handler handleClick.
-// If you are listening for a "keyPress" event, then you name your event handler handleKeyPress:
+// Every component's props object has a property named children.
 
-// Your prop name should be the word on, plus your event type.
-// If you are listening for a "click" event, then you name your prop onClick.
-// If you are listening for a "keyPress" event, then you name your prop onKeyPress:
+// this.props.children will return everything in between a component's opening and closing JSX tags.
 
-// class MyClass extends React.Component {
-//     handleHover() {
-//         alert('I am an event handler.');
-//         alert('I will listen for a "hover" event.');
-//     }
+// So far, all of the components that you've seen have been self-closing tags, such as <MyComponentClass />.
+// They don't have to be! You could write <MyComponentClass></MyComponentClass>, and it would still work.
+
+// this.props.children would return everything in between <MyComponentClass> and </MyComponentClass>.
+
+// In Example 1, <BigButton>'s this.props.children would equal the text, "I am a child of BigButton."
 //
-//     render() {
-//         return <Child onHover={this.handleHover} />;
-//     }
-// }
+//  In Example 2, <BigButton>'s this.props.children would equal a <LilButton /> component.
+//
+// In Example 3, <BigButton>'s this.props.children would equal undefined.
 
-class Talker extends React.Component {
-    handleClick() {
-        let speech = '';
-        for (let i = 0; i < 10000; i++) {
-            speech += 'blah ';
-        }
-        alert(speech);
-    }
+//  Example 1
+// <BigButton>
+//     I am a child of BigButton.
+// </BigButton>
+//
+//
+//  Example 2
+// <BigButton>
+// <LilButton />
+// </BigButton>
+//
+//
+// Example 3
+// <BigButton />
 
+// If a component has more than one child between its JSX tags, then this.props.children will return those children in an array.
+// However, if a component has only one child, then this.props.children will return the single child, not wrapped in an array.
+
+class App extends React.Component {
     render() {
-
-        // The name onClick does not create an event listener when used on <Button />
-        // - it's just an arbitrary attribute name:
-        // The reason for this is that in <Button /> is not an HTML-like JSX element; it's a component instance.
-        // Names like onClick only create event listeners if they're used on HTML-like JSX elements.
-        // Otherwise, they're just ordinary prop names.
-        return <Button onClick={this.handleClick}/>;
+        return (
+            <div>
+                <List type='Living Musician'>
+                    <li>Sachiko M</li>
+                    <li>Harvey Sid Fisher</li>
+                </List>
+                <List type='Living Cat Musician'>
+                    <li>Nora the Piano Cat</li>
+                </List>
+            </div>
+        );
     }
 }
 
 ReactDOM.render(
-    <Talker />,
+    <App />,
     document.getElementById('app')
 );
+

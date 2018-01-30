@@ -1,34 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// You can pass information to a React component.
+// You will often want a component to display the information that you pass.
 //
-// How? By giving that component an attribute: <MyComponent foo="bar" />
-// Let's say that you want to pass a component the message,
-// "This is some top secret info.".
-// Here's how you could do it: <Example message="This is some top secret info." />
+//    Here's how to make a component display passed-in information:
+//
+// 1 - Find the component class that is going to receive that information.
+// 2 - Include this.props.name-of-information in that component class's render method's return statement.
 
-// If you want to pass information that isn't a string,
-// then wrap that information in curly braces.
-// Here's how you would pass an array: <Greeting myInfo={["top", "secret", "lol"]} />
-
-// In this next example, we pass several pieces of information to <Greeting />.
-// The values that aren't strings are wrapped in curly braces:
-//<Greeting name="Frarthur" town="Flundon" age={2} haunted={false} />
-
-
-class PropsDisplayer extends React.Component {
+class Greeting extends React.Component {
     render() {
-        const stringProps = JSON.stringify(this.props);
-
-        return (
-            <div>
-                <h1>CHECK OUT MY PROPS OBJECT</h1>
-                <h2>{stringProps}</h2>
-            </div>
-        );
+        return <h1>Hi there, {this.props.firstName}!</h1>;
     }
 }
 
-// ReactDOM.render goes here:
-ReactDOM.render(<PropsDisplayer myProp="Hello" />, document.getElementById('app'));
+ReactDOM.render(
+    <Greeting firstName='Mary' />,
+    document.getElementById('app')
+);

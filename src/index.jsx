@@ -1,31 +1,61 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AttentionGrabber } from './child.jsx';
-import { styles } from './styles.jsx';
 
-// What if you want to reuse styles for several different components?
+// You are looking at an rendered <GuineaPigs /> component.
+// <GuineaPigs />'s job is to render a photo carousel of guinea pigs.
+// It does this perfectly well! And yet, it has a problem: it does too much stuff.
+// We can break <GuineaPigs /> into smaller components, but before we do:
+// how do we know that GuineaPigs does too much stuff?
+// How can you tell when a component has too many responsibilities?
+// Separating container components from presentational components helps to answer that question.
+// It shows you when it might be a good time to divide a component into smaller components.
+// It also shows you how to perform that division.
 
-// One way to make styles reusable is to keep them in a separate JavaScript file.
-// This file should export the styles that you want to reuse, via export.
-// You can then import your styles into any component that wants them.
+const GUINEAPATHS = [
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-1.jpg',
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-2.jpg',
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-3.jpg',
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-4.jpg'
+];
 
-const divStyle = {
-    background: styles.background,
-    height:     '100%'
-};
+export class GuineaPigs extends React.Component {
+    constructor(props) {
+        super(props);
 
-export class Home extends React.Component {
+        this.state = { currentGP: 0 };
+
+        this.interval = null;
+
+        this.nextGP = this.nextGP.bind(this);
+    }
+
+    nextGP() {
+        let current = this.state.currentGP;
+        let next = ++current % GUINEAPATHS.length;
+        this.setState({ currentGP: next });
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(this.nextGP, 5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
     render() {
+        let src = GUINEAPATHS[this.state.currentGP];
         return (
-            <div style={divStyle}>
-                <AttentionGrabber />
-                <footer>THANK YOU FOR VISITING MY HOMEPAGE!</footer>
+            <div>
+                <h1>Cute Guinea Pigs</h1>
+                <img src={src} />
             </div>
         );
     }
 }
 
 ReactDOM.render(
-    <Home />,
+    <GuineaPigs />,
     document.getElementById('app')
 );
+

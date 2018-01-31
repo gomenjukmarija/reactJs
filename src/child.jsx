@@ -1,26 +1,28 @@
 import React from 'react';
 
-// If a user selects a new name from the dropdown menu,
-// then you want Child to call changeName.
-// changeName will change the parent's this.state.name,
-// which will change the name displayed in the <h1></h1>.
-//
-// Inside of Child's render function, give <select> a new attribute.
-// Make the attribute's name onChange. This will create an event listener.
-// Make the attribute's value equal to the function that you passed in from Parent.js.
+// A child component updates its parent's state,
+// and the parent passes that state to a sibling component.
 
+// One of the very first things that you learned about components is that they should only have one job.//
+// In the last lesson, Child had two jobs:
+// 1 - Child displayed a name.
+// 2 - Child offered a way to change that name.
+
+// You should make like Solomon and divide Child in two:
+// one component for displaying the name,
+// and a different component for allowing a user to change the name.
+
+// Notice that these lines have vanished:
+//<h1>
+//    Hey, my name is {this.props.name}!
+//</h1>
 
 export class Child extends React.Component {
-
     constructor(props) {
         super(props);
+
         this.handleChange = this.handleChange.bind(this);
     }
-
-    // This new function should take an event object as an argument,
-    // extract the name that you want from that event object, and then call the event handler,
-    // passing in the extracted name!
-    // It sounds like a lot, but you will see this happen so often that it will soon feel intuitive.
 
     handleChange(e) {
         const name = e.target.value;
@@ -30,21 +32,13 @@ export class Child extends React.Component {
     render() {
         return (
             <div>
-                <h1>
-                    Hey my name is {this.props.name}!
-                </h1>
-                <select id="great-names" onChange={this.handleChange}>
-                    <option value="Frarthur">
-                        Frarthur
-                    </option>
+                <select
+                    id="great-names"
+                    onChange={this.handleChange}>
 
-                    <option value="Gromulus">
-                        Gromulus
-                    </option>
-
-                    <option value="Thinkpiece">
-                        Thinkpiece
-                    </option>
+                    <option value="Frarthur">Frarthur</option>
+                    <option value="Gromulus">Gromulus</option>
+                    <option value="Thinkpiece">Thinkpiece</option>
                 </select>
             </div>
         );

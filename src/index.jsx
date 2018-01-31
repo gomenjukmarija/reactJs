@@ -2,17 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Child } from './child.jsx';
 
-// Parent renders a <Child />, passing in a name prop.
-// This name prop is the same value that the <Child /> displays in its <h1></h1>.
-// You need Child's dropdown menu to change Parent's this.state.name!
-// That will cause <Child /> to get passed a new name prop,
-// which will change the name displayed on the screen.
+// We now need to make sure that the .changeName() method will always refer to the instance of Parent,
+// even when we pass it down to Child to use.
+// In the constructor method of Parent,
+// bind this.changeName to the current value of this and store it in this.changeName.
 
 class Parent extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = { name: 'Frarthur' };
+        this.changeName = this.changeName.bind(this);
     }
 
     changeName(newName) {
@@ -22,7 +22,10 @@ class Parent extends React.Component {
     }
 
     render() {
-        return <Child name={this.state.name} />
+        // Pass .changeName() down to Child!
+        // add a second attribute to <Child />.
+        // Give this attribute a name of onChange, and a value of the changeName method.
+        return <Child name={this.state.name} onChange={this.changeName} />
     }
 }
 

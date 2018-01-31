@@ -1,35 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { GuineaPigs } from './child.jsx';
 
-// Notice that its instructions object only has one property: render().
-// When you separate a container component from a presentational component,
-// the presentational component will always end up like this:
-// one render() function, and no other properties.
-// If you have a component class with nothing but a render function,
-// then you can rewrite that component class in a very different way.
-// Instead of using React.Component, you can write it as JavaScript function!
-//  A component class written as a function is called a stateless functional component.
-// Stateless functional components have some advantages over typical component classes.
-// We'll cover those advantages in this lesson.
+// container component
 
-// export class GuineaPigs extends React.Component {
-//
-//     render() {
-//         const src = this.props.src;
-//         return (
-//             <div>
-//                 <h1>Cute Guinea Pigs</h1>
-//                 <img src={src} />
-//             </div>
-//         );
-//     }
-// }
+const GUINEAPATHS = [
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-1.jpg',
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-2.jpg',
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-3.jpg',
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-4.jpg'
+];
 
-export const Friend = () => {
-    return <img src='https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-octopus.jpg' />;
+class GuineaPigsContainer extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { currentGP: 0 };
+
+        this.interval = null;
+
+        this.nextGP = this.nextGP.bind(this);
+    }
+
+    nextGP() {
+        let current = this.state.currentGP;
+        let next = ++current % GUINEAPATHS.length;
+        this.setState({ currentGP: next });
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(this.nextGP, 5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    render() {
+        const src = GUINEAPATHS[this.state.currentGP];
+        return <GuineaPigs src={src} />;
+    }
 }
 
 ReactDOM.render(
-    <Friend />,
+    <GuineaPigsContainer />,
     document.getElementById('app')
 );

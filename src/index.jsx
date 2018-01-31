@@ -1,35 +1,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BestSeller } from './child.jsx';
+import { GuineaPigs } from './child.jsx';
 
-export class BookList extends React.Component {
+const GUINEAPATHS = [
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-1.jpg',
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-2.jpg',
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-3.jpg',
+    'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-4.jpg'
+];
+
+export class GuineaPigsContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { currentGP: 0 };
+
+        this.interval = null;
+        this.nextGP = this.nextGP.bind(this);
+    }
+
+    nextGP() {
+        let current = this.state.currentGP;
+        let next = ++current % GUINEAPATHS.length;
+        this.setState({ currentGP: next });
+
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(this.nextGP, 5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
     render() {
-        console.log('jklkjlkjl');
-        return (
-            <div>
-                <h1>Best Sellers</h1>
-                <div>
-                    <ol>
-                        <BestSeller
-                            title="Glory and War Stuff for Dads"
-                            author="Sir Eldrich Van Hoorsgaard"
-                            weeksOnList={10} />
-                        <BestSeller
-                            title="The Crime Criminals!"
-                            author="Brenda Sqrentun"
-                            weeksOnList={2} />
-                        <BestSeller
-                            title="Subprime Lending For Punk Rockers"
-                            author="Malcolm McLaren"
-                            weeksOnList={600} />
-                    </ol>
-                </div>
-            </div>
-        );
+        console.log('this.state.currentGP',this.state.currentGP);
+        let src = GUINEAPATHS[this.state.currentGP];
+        return <GuineaPigs src={src} />;
     }
 }
 
 ReactDOM.render(
-    <BookList />,
+    <GuineaPigsContainer />,
     document.getElementById('app')
 );

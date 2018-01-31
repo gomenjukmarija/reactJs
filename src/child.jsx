@@ -1,37 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export class BestSeller extends React.Component {
-    render() {
-
-
-        return (
-            <li>
-                Title: <span>
-          {this.props.title}
-        </span><br />
-
-                Author: <span>
-          {this.props.author}
-        </span><br />
-
-                Weeks: <span>
-          {this.props.weeksOnList}
-        </span>
-            </li>
-        );
-    }
+export const GuineaPigs = (props) => {
+    let src = props.src;
+    return (
+        <div>
+            <h1>Cute Guinea Pigs</h1>
+            <img src={src} />
+        </div>
+    );
 }
 
-// What are the properties on propTypes supposed to be, exactly?
-// The name of each property in propTypes should be the name of an expected prop.
-// In our case, BestSeller expects a prop named title, author,  weeksOnList.//
-// The value of each property in propTypes should fit this pattern:
-// React.PropTypes.expected-data-type-goes-here
-// If you add .isRequired to a propType, then you will get a console warning if that prop isn't sent.
+// How could you write propTypes for a stateless functional component?
 
-BestSeller.propTypes = {
-    title:  PropTypes.string.isRequired,
-    author:     PropTypes.string.isRequired,
-    weeksOnList: PropTypes.number.isRequired
+// It turns out the process if fairly similar.
+// To write propTypes for a stateless functional component,
+// you define a propTypes object as a property of the stateless
+// functional component itself. Here's what that looks like:
+
+GuineaPigs.propTypes = {
+    src: PropTypes.string.isRequired
 };

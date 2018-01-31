@@ -1,9 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// In regular JavaScript, style names are written in hyphenated-lowercase:
+//
+// const styles = {
+//     'margin-top':       "20px",
+//     'background-color': "green"
+// };
+
+// In React, those same names are instead written in camelCase:
+//
+// const styles = {
+//     marginTop:       "20px",
+//     backgroundColor: "green"
+// };
+
 const styles = {
     background: 'lightblue',
-    color:      'darkred'
+    color:      'darkred',
+    marginTop:   "100px",
+    fontSize: "50px",
 };
 
 const styleMe = <h1 style={styles}>Please style me! I am so bland!</h1>;

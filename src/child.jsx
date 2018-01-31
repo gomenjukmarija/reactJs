@@ -1,16 +1,17 @@
 import React from 'react';
-import { styles } from './styles.jsx';
 
-const h1Style = {
-    color:      styles.color,
-    fontSize:   styles.fontSize,
-    fontFamily: styles.fontFamily,
-    padding:    styles.padding,
-    margin:     0
-};
+// presentational component
+// That means that its only job will be to render HTML-like JSX.
 
-export class AttentionGrabber extends React.Component {
+export class GuineaPigs extends React.Component {
+
     render() {
-        return <h1 style={h1Style}>WELCOME TO MY HOMEPAGE!</h1>;
+        const src = this.props.src;
+        return (
+            <div>
+                <h1>Cute Guinea Pigs</h1>
+                <img src={src} />
+            </div>
+        );
     }
 }

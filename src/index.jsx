@@ -1,15 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { GuineaPigs } from './child.jsx';
 
-// You are looking at an rendered <GuineaPigs /> component.
-// <GuineaPigs />'s job is to render a photo carousel of guinea pigs.
-// It does this perfectly well! And yet, it has a problem: it does too much stuff.
-// We can break <GuineaPigs /> into smaller components, but before we do:
-// how do we know that GuineaPigs does too much stuff?
-// How can you tell when a component has too many responsibilities?
-// Separating container components from presentational components helps to answer that question.
-// It shows you when it might be a good time to divide a component into smaller components.
-// It also shows you how to perform that division.
+// container component
 
 const GUINEAPATHS = [
     'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-1.jpg',
@@ -18,7 +11,7 @@ const GUINEAPATHS = [
     'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-4.jpg'
 ];
 
-export class GuineaPigs extends React.Component {
+class GuineaPigsContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -44,18 +37,12 @@ export class GuineaPigs extends React.Component {
     }
 
     render() {
-        let src = GUINEAPATHS[this.state.currentGP];
-        return (
-            <div>
-                <h1>Cute Guinea Pigs</h1>
-                <img src={src} />
-            </div>
-        );
+        const src = GUINEAPATHS[this.state.currentGP];
+        return <GuineaPigs src={src} />;
     }
 }
 
 ReactDOM.render(
-    <GuineaPigs />,
+    <GuineaPigsContainer />,
     document.getElementById('app')
 );
-

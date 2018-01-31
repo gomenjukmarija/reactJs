@@ -1,7 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export class BestSeller extends React.Component {
     render() {
+
+
         return (
             <li>
                 Title: <span>
@@ -28,7 +31,7 @@ export class BestSeller extends React.Component {
 // If you add .isRequired to a propType, then you will get a console warning if that prop isn't sent.
 
 BestSeller.propTypes = {
-    title:   React.PropTypes.string.isRequired,
-    author:     React.PropTypes.string.isRequired,
-    weeksOnList: React.PropTypes.number.isRequired
+    title:  PropTypes.string.isRequired,
+    author:     PropTypes.string.isRequired,
+    weeksOnList: PropTypes.number.isRequired
 };

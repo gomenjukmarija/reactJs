@@ -4,6 +4,7 @@ import { BestSeller } from './child.jsx';
 
 export class BookList extends React.Component {
     render() {
+        console.log('jklkjlkjl');
         return (
             <div>
                 <h1>Best Sellers</h1>

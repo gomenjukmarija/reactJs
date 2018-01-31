@@ -1,20 +1,34 @@
 import React from 'react';
 
-// Stateless functional components usually have props passed to them.//
-//To access these props, give your stateless functional component a parameter.
-// This parameter will automatically be equal to the component's props object.//
-// It's customary to name this parameter props.//
-// Not only are stateless functional components more concise,
-// but they will subtly influence how you think about components in a positive way.
-// They emphasize the fact that components are basically functions!
-// A component takes two optional inputs, props and state, and outputs HTML and/or other components.
+export class BestSeller extends React.Component {
+    render() {
+        return (
+            <li>
+                Title: <span>
+          {this.props.title}
+        </span><br />
 
-export const GuineaPigs = (props) => {
-    let src = props.src;
-    return (
-        <div>
-            <h1>Cute Guinea Pigs</h1>
-            <img src={src} />
-        </div>
-    );
+                Author: <span>
+          {this.props.author}
+        </span><br />
+
+                Weeks: <span>
+          {this.props.weeksOnList}
+        </span>
+            </li>
+        );
+    }
 }
+
+// What are the properties on propTypes supposed to be, exactly?
+// The name of each property in propTypes should be the name of an expected prop.
+// In our case, BestSeller expects a prop named title, author,  weeksOnList.//
+// The value of each property in propTypes should fit this pattern:
+// React.PropTypes.expected-data-type-goes-here
+// If you add .isRequired to a propType, then you will get a console warning if that prop isn't sent.
+
+BestSeller.propTypes = {
+    title:   React.PropTypes.string.isRequired,
+    author:     React.PropTypes.string.isRequired,
+    weeksOnList: React.PropTypes.number.isRequired
+};

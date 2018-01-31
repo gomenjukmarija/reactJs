@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 export class Input extends React.Component {
-
     constructor(props) {
         super(props);
 
@@ -12,16 +11,15 @@ export class Input extends React.Component {
     }
 
     handleUserInput(e) {
-        this.setState({
-            userInput: e.target.value
-        });
+        this.setState({userInput: e.target.value});
     }
 
     render() {
         return (
             <div>
-                <input type="text" onChange={this.handleUserInput} />
-                <h1>I am an h1.</h1>
+                <input type="text" onChange={this.handleUserInput}
+                       value={this.state.userInput}/>
+                <h1>{this.state.userInput}</h1>
             </div>
         );
     }

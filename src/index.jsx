@@ -1,131 +1,85 @@
 /*
 
-The first updating lifecycle method is called componentWillReceiveProps.
+The second updating lifecycle method is called shouldComponentUpdate.
+When a component updates, shouldComponentUpdate gets called after componentWillReceiveProps,
+but still before the rendering begins.
 
-When a component instance updates, componentWillReceiveProps gets called before the rendering begins.
+import React from 'react';
 
-As one might expect, componentWillReceiveProps only gets called if the component will receive props:
+export class Example extends React.Component {
+  constructor(props) {
+    super(props);
 
-// componentWillReceiveProps will get called here:
-ReactDOM.render(
-  <Example prop="myVal" />,
-  document.getElementById('app')
-);
+    this.state = { subtext: 'Put me in an <h2> please.' };
+  }
 
-// componentWillReceiveProps will NOT get called here:
-ReactDOM.render(
-  <Example />,
-  document.getElementById('app')
-);
+//   shouldComponentUpdate automatically receives two arguments: nextProps and nextState.
+// It's typical to compare nextProps and nextState to the current this.props and this.state,
+// and use the results to decide what to do.
 
-componentWillReceiveProps automatically gets passed one argument:
-an object called nextProps.
-nextProps is a preview of the upcoming props object that the component is about to receive.
+  shouldComponentUpdate(nextProps, nextState) {
+    if ((this.props.text == nextProps.text) &&
+      (this.state.subtext == nextState.subtext)) {
+      alert("Props and state haven't changed, so I'm not gonna update!");
+      return false;
+    } else {
+      alert("Okay fine I will update.")
+      return true;
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>{this.props.text}</h1>
+        <h2>{this.state.subtext}</h2>
+      </div>
+    );
+  }
+}
+
+shouldComponentUpdate should return either true or false.
+If shouldComponentUpdate returns true, then nothing noticeable happens.
+But if shouldComponentUpdate returns false, then the component will not update!
+None of the remaining lifecycle methods for that updating period will be called, including render.
+
+The best way to use shouldComponentUpdate is to have it return false only under certain conditions.
+If those conditions are met, then your component will not update.
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { TopNumber } from './TopNumber';
-import { Display } from './Display';
-import { Target } from './Target';
-import { random, clone } from './helpers';
+import { random } from './helpers';
 
-const fieldStyle = {
-    position: 'absolute',
-    width: 250,
-    bottom: 60,
-    left: 10,
-    height: '60%',
-};
+export class Target extends React.Component {
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            game: false,
-            targets: {},
-            latestClick: 0
-        };
+    // You want shouldComponentUpdate to return false when a target has already rendered,
+    // and is about to repeat the same number as its last render.
+    // This will cause Target to cancel its update.
 
-        this.intervals = null;
-
-        this.hitTarget = this.hitTarget.bind(this);
-        this.startGame = this.startGame.bind(this);
-        this.endGame = this.endGame.bind(this);
-    }
-
-    createTarget(key, ms) {
-        ms = ms || random(500, 2000);
-        this.intervals.push(setInterval(function(){
-            let targets = clone(this.state.targets);
-            let num = random(1, 1000*1000);
-            targets[key] = targets[key] != 0 ? 0 : num;
-            this.setState({ targets: targets });
-        }.bind(this), ms));
-    }
-
-    hitTarget(e) {
-        if (e.target.className != 'target') return;
-        let num = parseInt(e.target.innerText);
-        for (let target in this.state.targets) {
-            let key = Math.random().toFixed(4);
-            this.createTarget(key);
-        }
-        this.setState({ latestClick: num });
-    }
-
-    startGame() {
-        this.createTarget('first', 750);
-        this.setState({
-            game: true
-        });
-    }
-
-    endGame() {
-        this.intervals.forEach((int) => {
-            clearInterval(int);
-        });
-        this.intervals = [];
-        this.setState({
-            game: false,
-            targets: {},
-            latestClick: 0
-        });
-    }
-
-    componentWillMount() {
-        this.intervals = [];
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.number != nextProps.number;
     }
 
     render() {
-        let buttonStyle = {
-            display: this.state.game ? 'none' : 'inline-block'
+        let visibility = this.props.number ? 'visible' : 'hidden';
+        let style = {
+            position: 'absolute',
+            left: random(0, 100) + '%',
+            top: random(0, 100) + '%',
+            fontSize: 40,
+            cursor: 'pointer',
+            visibility: visibility
         };
-        let targets = [];
-        for (let key in this.state.targets) {
-            targets.push(
-                <Target
-                    number={this.state.targets[key]}
-                    key={key} />
-            );
-        }
+
         return (
-            <div>
-                <TopNumber number={this.state.latestClick} game={this.state.game} />
-                <Display number={this.state.latestClick} />
-                <button onClick={this.startGame} style={buttonStyle}>
-                    New Game
-                </button>
-                <div style={fieldStyle} onClick={this.hitTarget}>
-                    {targets}
-                </div>
-            </div>
-        );
+            <span style={style} className="target">
+        {this.props.number}
+      </span>
+        )
     }
 }
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('app')
-);
+Target.propTypes = {
+    number: React.PropTypes.number.isRequired
+};

@@ -1,85 +1,82 @@
 /*
 
-The second updating lifecycle method is called shouldComponentUpdate.
-When a component updates, shouldComponentUpdate gets called after componentWillReceiveProps,
-but still before the rendering begins.
+The third updating lifecycle method is componentWillUpdate.
+
+componentWillUpdate gets called in between shouldComponentUpdate and render.
+
+componentWillUpdate receives two arguments: nextProps and nextState.
 
 import React from 'react';
 
 export class Example extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { subtext: 'Put me in an <h2> please.' };
-  }
-
-//   shouldComponentUpdate automatically receives two arguments: nextProps and nextState.
-// It's typical to compare nextProps and nextState to the current this.props and this.state,
-// and use the results to decide what to do.
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if ((this.props.text == nextProps.text) &&
-      (this.state.subtext == nextState.subtext)) {
-      alert("Props and state haven't changed, so I'm not gonna update!");
-      return false;
-    } else {
-      alert("Okay fine I will update.")
-      return true;
-    }
+  componentWillUpdate(nextProps, nextState) {
+    alert('Component is about to update!  Any second now!');
   }
 
   render() {
-    return (
-      <div>
-        <h1>{this.props.text}</h1>
-        <h2>{this.state.subtext}</h2>
-      </div>
-    );
+    return <h1>Hello world</h1>;
   }
 }
 
-shouldComponentUpdate should return either true or false.
-If shouldComponentUpdate returns true, then nothing noticeable happens.
-But if shouldComponentUpdate returns false, then the component will not update!
-None of the remaining lifecycle methods for that updating period will be called, including render.
+You cannot call this.setState from the body of componentWillUpdate!
+Which begs the question, why would you use it?
+The main purpose of componentWillUpdate is to interact with things outside of the React architecture.
+If you need to do non-React setup before a component renders,
+such as checking the window size or interacting with an API,
+then componentWillUpdate is a good place to do that.
 
-The best way to use shouldComponentUpdate is to have it return false only under certain conditions.
-If those conditions are met, then your component will not update.
+If that sounds abstract, that's okay!
+All of the lifecycle methods might feel a bit theoretical,
+until you've used them in real-life scenarios.
+You'll be doing more of that in the next course.
 */
 
 import React from 'react';
-import { random } from './helpers';
+import ReactDOM from 'react-dom';
+const yellow = 'rgb(255, 215, 18)';
 
-export class Target extends React.Component {
+export class TopNumber extends React.Component {
+    constructor(props) {
+        super(props);
 
+        this.state = { 'highest': 0 };
+    }
 
-    // You want shouldComponentUpdate to return false when a target has already rendered,
-    // and is about to repeat the same number as its last render.
-    // This will cause Target to cancel its update.
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.number > this.state.highest) {
+            this.setState({
+                highest: nextProps.number
+            });
+        }
+    }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.props.number != nextProps.number;
+    // On every render, you want componentWillUpdate to check whether the background is yellow already.
+    // If it isn't, then you want to check whether the top number is at least 950,000.
+    // If it is, then make the background yellow.
+    // Of course, you'll also need to change the color back to white when a user starts a new game!
+    // You can do this with the help of this.props.game,
+    // a boolean that reports whether or not a current game is in progress.
+
+    componentWillUpdate(nextProps, nextState) {
+        if (document.body.style.background != yellow
+            && this.state.highest >= 850*100) {
+            document.body.style.background = yellow;
+        } else if (!this.props.game
+            && nextProps.game) {
+            document.body.style.background = 'white';
+        }
     }
 
     render() {
-        let visibility = this.props.number ? 'visible' : 'hidden';
-        let style = {
-            position: 'absolute',
-            left: random(0, 100) + '%',
-            top: random(0, 100) + '%',
-            fontSize: 40,
-            cursor: 'pointer',
-            visibility: visibility
-        };
-
         return (
-            <span style={style} className="target">
-        {this.props.number}
-      </span>
-        )
+            <h1>
+                Top Number: {this.state.highest}
+            </h1>
+        );
     }
 }
 
-Target.propTypes = {
-    number: React.PropTypes.number.isRequired
+TopNumber.propTypes = {
+    number: React.PropTypes.number,
+    game: React.PropTypes.bool
 };

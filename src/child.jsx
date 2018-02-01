@@ -1,23 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+const yellow = 'rgb(255, 215, 18)';
 
-export const GuineaPigs = (props) => {
-    let src = props.src;
-    return (
-        <div>
-            <h1>Cute Guinea Pigs</h1>
-            <img src={src} />
-        </div>
-    );
+export class TopNumber extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { 'highest': 0 };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.number > this.state.highest) {
+            this.setState({
+                highest: nextProps.number
+            });
+        }
+    }
+
+    render() {
+        return (
+            <h1>
+                Top Number: {this.state.highest}
+            </h1>
+        );
+    }
 }
 
-// How could you write propTypes for a stateless functional component?
-
-// It turns out the process if fairly similar.
-// To write propTypes for a stateless functional component,
-// you define a propTypes object as a property of the stateless
-// functional component itself. Here's what that looks like:
-
-GuineaPigs.propTypes = {
-    src: PropTypes.string.isRequired
+TopNumber.propTypes = {
+    number: React.PropTypes.number,
+    game: React.PropTypes.bool
 };

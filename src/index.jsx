@@ -1,135 +1,86 @@
 /*
-The last updating lifecycle method is componentDidUpdate.
+componentWillUnmount
+A component's unmounting period occurs when the component is removed from the DOM.
+This could happen if the DOM is rerendered without the component,
+or if the user navigates to a different website or closes their web browser.
 
-When a component instance updates,
-componentDidUpdate gets called after any rendered HTML has finished loading.
+componentWillUnmount is the only unmounting lifecycle method!
+componentWillUnmount gets called right before a component is removed from the DOM.
+If a component initiates any methods that require cleanup,
+then componentWillUnmount is where you should put that cleanup.
 
 import React from 'react';
 
-export class Example extends React.component {
-  componentDidUpdate(prevProps, prevState) {
-    alert('Component is done rendering!');
+export class Example extends React.Component {
+  componentWillUnmount() {
+    alert('Goodbye world');
   }
 
   render() {
     return <h1>Hello world</h1>;
   }
 }
-
-componentDidUpdate automatically gets passed two arguments: prevProps and prevState.
-prevProps and prevState are references to the component's props and state before the current updating period began.
-You can compare them to the current props and state.
-
-componentDidUpdate is usually used for interacting with things outside of the React environment,
-like the browser or APIs.
-It's similar to componentWillUpdate in that way, except that it gets called after render instead of before.
 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { TopNumber } from './TopNumber';
-import { Display } from './Display';
-import { Target } from './Target';
-import { random, clone } from './helpers';
+import { Enthused } from './child.jsx';
 
-const fieldStyle = {
-    position: 'absolute',
-    width: 250,
-    bottom: 60,
-    left: 10,
-    height: '60%',
-};
-
-class App extends React.Component {
+export class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            game: false,
-            targets: {},
-            latestClick: 0
+            enthused: false,
+            text: ''
         };
 
-        this.intervals = null;
-
-        this.hitTarget = this.hitTarget.bind(this);
-        this.startGame = this.startGame.bind(this);
-        this.endGame = this.endGame.bind(this);
+        this.toggleEnthusiasm = this.toggleEnthusiasm.bind(this);
+        this.addText = this.addText.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    // You want the game to end when a user clicks a number less than their previous click. componentDidUpdate can do that!
-
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.latestClick < prevState.latestClick) {
-            this.endGame();
-        }
-    }
-
-    createTarget(key, ms) {
-        ms = ms || random(500, 2000);
-        this.intervals.push(setInterval(function(){
-            let targets = clone(this.state.targets);
-            let num = random(1, 1000*1000);
-            targets[key] = targets[key] != 0 ? 0 : num;
-            this.setState({ targets: targets });
-        }.bind(this), ms));
-    }
-
-    hitTarget(e) {
-        if (e.target.className != 'target') return;
-        let num = parseInt(e.target.innerText);
-        for (let target in this.state.targets) {
-            let key = Math.random().toFixed(4);
-            this.createTarget(key);
-        }
-        this.setState({ latestClick: num });
-    }
-
-    startGame() {
-        this.createTarget('first', 750);
+    toggleEnthusiasm() {
         this.setState({
-            game: true
+            enthused: !this.state.enthused
         });
     }
 
-    endGame() {
-        this.intervals.forEach((int) => {
-            clearInterval(int);
-        });
-        this.intervals = [];
-        this.setState({
-            game: false,
-            targets: {},
-            latestClick: 0
-        });
+    setText(text) {
+        this.setState({ text: text });
     }
 
-    componentWillMount() {
-        this.intervals = [];
+    addText(newText) {
+        let text = this.state.text + newText;
+        this.setState({ text: text });
+    }
+
+    handleChange(e) {
+        this.setText(e.target.value);
     }
 
     render() {
-        let buttonStyle = {
-            display: this.state.game ? 'none' : 'inline-block'
-        };
-        let targets = [];
-        for (let key in this.state.targets) {
-            targets.push(
-                <Target
-                    number={this.state.targets[key]}
-                    key={key} />
+        let button;
+        if (this.state.enthused) {
+            button = (
+                <Enthused toggle={this.toggleEnthusiasm} addText={this.addText} />
+            );
+        } else {
+            button = (
+                <button onClick={this.toggleEnthusiasm}>
+                    Add Enthusiasm!
+                </button>
             );
         }
+
         return (
             <div>
-                <TopNumber number={this.state.latestClick} game={this.state.game} />
-                <Display number={this.state.latestClick} />
-                <button onClick={this.startGame} style={buttonStyle}>
-                    New Game
-                </button>
-                <div style={fieldStyle} onClick={this.hitTarget}>
-                    {targets}
-                </div>
+                <h1>Auto-Enthusiasm</h1>
+                <textarea rows="7" cols="40" value={this.state.text}
+                          onChange={this.handleChange}>
+        </textarea>
+                {button}
+                <h2>{this.state.text}</h2>
             </div>
         );
     }
@@ -139,4 +90,3 @@ ReactDOM.render(
     <App />,
     document.getElementById('app')
 );
-

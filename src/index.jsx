@@ -1,18 +1,47 @@
-// Lifecycle methods are methods that get called at certain moments in a component's life.
-// You can write a lifecycle method that gets called right before a component renders for the first time.
-// You can write a lifecycle method that gets called right after a component renders,
-// every time except for the first time.
-//  You can attach lifecycle methods to a lot of different moments in a component's life.
+// The first mounting lifecycle method is called componentWillMount.
+// When a component renders for the first time,
+// componentWillMount gets called right before render.
 
-// There are three categories of lifecycle methods:
-// mounting, updating, and unmounting.
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-// A component "mounts" when it renders for the first time.
-// This is when mounting lifecycle methods get called.
-//
-// There are three mounting lifecycle methods:
-// componentWillMount
-// render
-// componentDidMount
+export class Example extends React.Component {
+    constructor(props) {
+        super(props);
 
-// When a component mounts, it automatically calls these three methods, in order.
+        this.state = { text: '' };
+    }
+
+// 2) <Example /> calls the first mounting lifecycle method, componentWillMount.
+// 3) componentWillMount executes, and an alert appears on the screen.
+//    You can call this.setState from within componentWillMount!!!
+    componentWillMount() {
+        alert('component is about to mount!');
+        this.setState({ text: 'Hello world' });
+    }
+
+    // 4) After componentWillMount has finished,
+    // <Example /> calls the second mounting lifecycle method: render.
+    // 5) <h1>Hello world</h1> appears on the screen
+    render() {
+        return <h1>{this.state.text}</h1>;
+    }
+}
+
+//1) <Example /> is rendered for the first time.
+// <Example />'s mounting period begins.
+ReactDOM.render(
+    <Example />,
+    document.getElementById('app')
+);
+
+// 6) Two seconds later, <Example /> renders again.
+// componentWillMount does NOT get called,
+// because mounting lifecycle events only execute the first time that a component renders.
+setTimeout(() => {
+    ReactDOM.render(
+        <Example />,
+        document.getElementById('app')
+    );
+}, 2000);
+
